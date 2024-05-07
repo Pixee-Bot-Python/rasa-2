@@ -24,6 +24,7 @@ from rasa.utils.tensorflow.metrics import F1Score
 from rasa.utils.tensorflow.exceptions import TFLayerConfigException
 import rasa.utils.tensorflow.layers_utils as layers_utils
 from rasa.utils.tensorflow.crf import crf_log_likelihood
+import math
 
 logger = logging.getLogger(__name__)
 
@@ -288,7 +289,7 @@ class RandomlyConnectedDense(tf.keras.layers.Dense):
         """
         super().build(input_shape)
 
-        if self.density == 1.0:
+        if math.isclose(self.density, 1.0, rel_tol=1e-09, abs_tol=0.0):
             self.kernel_mask = None
             return
 

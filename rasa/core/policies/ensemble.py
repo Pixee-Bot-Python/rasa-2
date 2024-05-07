@@ -17,6 +17,7 @@ from rasa.shared.core.events import (
     DefinePrevUserUtteredFeaturization,
 )
 from rasa.shared.core.trackers import DialogueStateTracker
+import math
 
 logger = logging.getLogger(__name__)
 
@@ -54,7 +55,7 @@ def is_not_in_training_data(
     )
 
     # also check if confidence is 0, than it cannot be count as prediction
-    return not is_memorized or max_confidence == 0.0
+    return not is_memorized or math.isclose(max_confidence, 0.0, rel_tol=1e-09, abs_tol=0.0)
 
 
 class InvalidPolicyEnsembleConfig(RasaException):

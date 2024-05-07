@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 import sys
 from unittest import mock
+import math
 
 sys.path.append(".github/scripts")
 from mr_publish_results import (  # noqa: E402
@@ -60,11 +61,11 @@ def test_generate_json():
 
 
 def test_transform_to_seconds():
-    assert 87.0 == transform_to_seconds("1m27s")
-    assert 87.3 == transform_to_seconds("1m27.3s")
-    assert 27.0 == transform_to_seconds("27s")
-    assert 3627.0 == transform_to_seconds("1h27s")
-    assert 3687.0 == transform_to_seconds("1h1m27s")
+    assert math.isclose(87.0, transform_to_seconds("1m27s"), rel_tol=1e-09, abs_tol=0.0)
+    assert math.isclose(87.3, transform_to_seconds("1m27.3s"), rel_tol=1e-09, abs_tol=0.0)
+    assert math.isclose(27.0, transform_to_seconds("27s"), rel_tol=1e-09, abs_tol=0.0)
+    assert math.isclose(3627.0, transform_to_seconds("1h27s"), rel_tol=1e-09, abs_tol=0.0)
+    assert math.isclose(3687.0, transform_to_seconds("1h1m27s"), rel_tol=1e-09, abs_tol=0.0)
 
 
 def test_prepare_ml_model_perf_metrics():

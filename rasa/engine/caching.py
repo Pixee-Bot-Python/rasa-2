@@ -24,6 +24,7 @@ import sqlalchemy.orm
 from sqlalchemy.ext.declarative import declarative_base, DeclarativeMeta
 
 from rasa.engine.storage.storage import ModelStorage
+import math
 
 logger = logging.getLogger(__name__)
 
@@ -298,7 +299,7 @@ class LocalTrainingCache(TrainingCache):
             session.merge(cache_entry)
 
     def _is_disabled(self) -> bool:
-        return self._max_cache_size == 0.0
+        return math.isclose(self._max_cache_size, 0.0, rel_tol=1e-09, abs_tol=0.0)
 
     def _cache_output_to_disk(
         self, output: Cacheable, model_storage: ModelStorage

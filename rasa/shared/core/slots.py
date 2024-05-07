@@ -7,6 +7,7 @@ from rasa.shared.exceptions import RasaException
 import rasa.shared.utils.common
 import rasa.shared.utils.io
 from rasa.shared.constants import DOCS_URL_SLOTS
+import math
 
 logger = logging.getLogger(__name__)
 
@@ -254,10 +255,10 @@ def bool_from_any(x: Any) -> bool:
     if isinstance(x, bool):
         return x
     elif isinstance(x, (float, int)):
-        return x == 1.0
+        return math.isclose(x, 1.0, rel_tol=1e-09, abs_tol=0.0)
     elif isinstance(x, str):
         if x.isnumeric():
-            return float(x) == 1.0
+            return math.isclose(float(x), 1.0, rel_tol=1e-09, abs_tol=0.0)
         elif x.strip().lower() == "true":
             return True
         elif x.strip().lower() == "false":
